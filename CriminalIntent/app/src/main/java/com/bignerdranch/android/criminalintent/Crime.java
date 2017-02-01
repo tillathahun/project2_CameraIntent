@@ -10,6 +10,7 @@ public class Crime {
     private Date mDate;
     private boolean mSolved;
     private String mSuspect;
+    private boolean mFaceDetect;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -57,5 +58,11 @@ public class Crime {
 
     public String getPhotoFilename() {
         return "IMG_" + getId().toString() + ".jpg";
+    }
+
+    public boolean isFaceDetect() { return  mFaceDetect; }
+
+    public void setFaceDetect(boolean faceDetect) {
+        mSolved = faceDetect;
     }
 }
