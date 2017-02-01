@@ -23,4 +23,7 @@
     <string name="crime_report_suspect">the suspect is %s.</string>
     <string name="crime_report_subject">CriminalIntent Crime Report</string>
     <string name="send_report">Send crime report via</string>
+    <string name="enable_face">Enable Face Detection</string>
+    <string name="default_face">No faces detected.</string>
+    <string name="previous_images">PREVIOUS IMAGES</string>
 </resources>
