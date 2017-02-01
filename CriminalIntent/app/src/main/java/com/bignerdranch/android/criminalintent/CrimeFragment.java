@@ -48,6 +48,7 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private CheckBox mFaceDetect;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -120,7 +121,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mFaceDetect = (CheckBox) v.findViewById((R.id.enableFace_checkbox));
+        mFaceDetect = (CheckBox) v.findViewById((R.id.enableFace_checkBox));
         mFaceDetect.setChecked(mCrime.isFaceDetect());
         mFaceDetect.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
