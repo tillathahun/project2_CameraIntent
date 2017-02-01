@@ -48,6 +48,9 @@ public class CrimeFragment extends Fragment {
     private Button mSuspectButton;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private ImageView mPhotoView2;
+    private ImageView mPhotoView3;
+    private ImageView mPhotoView4;
     private CheckBox mFaceDetect;
 
     public static CrimeFragment newInstance(UUID crimeId) {
