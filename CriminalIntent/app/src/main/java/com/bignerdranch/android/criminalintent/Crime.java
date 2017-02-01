@@ -62,7 +62,5 @@ public class Crime {
 
     public boolean isFaceDetect() { return  mFaceDetect; }
 
-    public void setFaceDetect(boolean faceDetect) {
-        mSolved = faceDetect;
-    }
+    public void setFaceDetect(boolean faceDetect) { mSolved = faceDetect; }
 }
