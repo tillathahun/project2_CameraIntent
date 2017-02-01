@@ -120,6 +120,15 @@ public class CrimeFragment extends Fragment {
             }
         });
 
+        mFaceDetect = (CheckBox) v.findViewById((R.id.enableFace_checkbox));
+        mFaceDetect.setChecked(mCrime.isFaceDetect());
+        mFaceDetect.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mCrime.setFaceDetect(isChecked);
+            }
+        });
+
         mReportButton = (Button)v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
