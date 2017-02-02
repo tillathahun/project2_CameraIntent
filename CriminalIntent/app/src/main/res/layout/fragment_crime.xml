@@ -100,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/default_face"
-            android:gravity="center" />
+            android:gravity="center"
+            android:id="@+id/faceCount"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -20,6 +20,7 @@
             android:label="@string/app_name"
             android:parentActivityName=".CrimeListActivity">
         </activity>
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="face" />
         <activity android:name=".CrimeListActivity">
 
             <intent-filter>
