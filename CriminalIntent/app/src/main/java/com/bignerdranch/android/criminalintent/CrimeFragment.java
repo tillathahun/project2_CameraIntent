@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,9 @@ public class CrimeFragment extends Fragment {
 
     private Crime mCrime;
     private File mPhotoFile;
+    private File mPhotoFile2;
+    private File mPhotoFile3;
+    private File mPhotoFile4;
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckbox;
@@ -52,6 +56,7 @@ public class CrimeFragment extends Fragment {
     private ImageView mPhotoView3;
     private ImageView mPhotoView4;
     private CheckBox mFaceDetect;
+    private boolean mCanTakePhoto;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -67,7 +72,10 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
-        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount());
+        mPhotoFile2 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-1);
+        mPhotoFile3 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-2);
+        mPhotoFile4 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-3);
     }
 
     @Override
@@ -169,23 +177,32 @@ public class CrimeFragment extends Fragment {
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        boolean canTakePhoto = mPhotoFile != null &&
+        mCanTakePhoto = mPhotoFile != null &&
                 captureImage.resolveActivity(packageManager) != null;
-        mPhotoButton.setEnabled(canTakePhoto);
+        mPhotoButton.setEnabled(mCanTakePhoto);
 
-        if (canTakePhoto) {
-            Uri uri = Uri.fromFile(mPhotoFile);
-            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        }
+        //if the count > 1, call this function
 
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCrime.incrementPhotoCount();
+                mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount());
+                mPhotoFile2 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-1);
+                mPhotoFile3 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-2);
+                mPhotoFile4 = CrimeLab.get(getActivity()).getPhotoFile(mCrime, mCrime.getPhotoCount()-3);
+                if (mCanTakePhoto) {
+                    Uri uri = Uri.fromFile(mPhotoFile);
+                    captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                }
                 startActivityForResult(captureImage, REQUEST_PHOTO);
             }
         });
 
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
+        mPhotoView2 = (ImageView) v.findViewById(R.id.crime_image2);
+        mPhotoView3 = (ImageView) v.findViewById(R.id.crime_image3);
+        mPhotoView4 = (ImageView) v.findViewById(R.id.crime_image4);
         updatePhotoView();
 
         return v;
@@ -194,6 +211,9 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {
+            if (requestCode == REQUEST_PHOTO) {
+                mCrime.setPhotoCount(mCrime.getPhotoCount() - 1);
+            }
             return;
         }
 
@@ -267,6 +287,30 @@ public class CrimeFragment extends Fragment {
             Bitmap bitmap = PictureUtils.getScaledBitmap(
                     mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
+        }
+
+        if (mPhotoFile2 == null || !mPhotoFile2.exists()) {
+            mPhotoView2.setImageResource(R.drawable.placeholder);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile2.getPath(), getActivity());
+            mPhotoView2.setImageBitmap(bitmap);
+        }
+
+        if (mPhotoFile3 == null || !mPhotoFile3.exists()) {
+            mPhotoView3.setImageResource(R.drawable.placeholder);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile3.getPath(), getActivity());
+            mPhotoView3.setImageBitmap(bitmap);
+        }
+
+        if (mPhotoFile4 == null || !mPhotoFile4.exists()) {
+            mPhotoView4.setImageResource(R.drawable.placeholder);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile4.getPath(), getActivity());
+            mPhotoView4.setImageBitmap(bitmap);
         }
     }
 }

@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="70dp"
             android:layout_weight="1"
-            android:id="@+id/crime_Image4"
+            android:id="@+id/crime_image4"
             android:src="@drawable/placeholder" />
     </LinearLayout>
 

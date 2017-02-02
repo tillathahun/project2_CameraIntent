@@ -11,6 +11,7 @@ public class Crime {
     private boolean mSolved;
     private String mSuspect;
     private boolean mFaceDetect;
+    private int mPhotoCount;
 
     public Crime() {
         this(UUID.randomUUID());
@@ -19,6 +20,7 @@ public class Crime {
     public Crime(UUID id) {
         mId = id;
         mDate = new Date();
+        mPhotoCount = 0;
     }
     public UUID getId() {
         return mId;
@@ -56,13 +58,26 @@ public class Crime {
         mSuspect = suspect;
     }
 
-    public String getPhotoFilename() {
-        return "IMG_" + getId().toString() + ".jpg";
+    public String getPhotoFilename(int photoCount) {
+
+        return "IMG_" + getId().toString() + photoCount + ".jpg";
     }
 
     public boolean isFaceDetect() { return  mFaceDetect; }
 
     public void setFaceDetect(boolean faceDetect) {
         mFaceDetect = faceDetect;
+    }
+
+    public int getPhotoCount() {
+        return mPhotoCount;
+    }
+
+    public void setPhotoCount(int photoCount) {
+        mPhotoCount = photoCount;
+    }
+
+    public void incrementPhotoCount() {
+        mPhotoCount++;
     }
 }
